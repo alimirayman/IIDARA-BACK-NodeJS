@@ -1,15 +1,21 @@
 // Bsic Setup
 
 // Importing Moules
-var express = require('express'),
-    app = express(),
-    cors = require('cors'),
-    helmet = require('helmet'),
-    bodyParser = require('body-parser'),
-    mongoose = require('mongoose')
+var 
+  express = require('express'),
+  app = express(),
+  cors = require('cors'),
+  helmet = require('helmet'),
+  bodyParser = require('body-parser'),
+  mongoose = require('mongoose'),
+  dotenv = require('dotenv').config()
 
-var index = require('./src/routes')
-var people = require('./src/routes/people')
+// Import Routes
+var
+  index = require('./src/routes'),
+  karigor = require('./src/routes/karigor'),
+  card = require('./src/routes/cards'),
+  auth = require('./src/routes/auth')
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -25,7 +31,7 @@ app.use(cors())
 app.use(helmet())
 
 // Database Setup
-mongoose.connect('mongodb://localhost:27017/person');
+mongoose.connect('mongodb://localhost:27017/iidara');
 
 // set our port
 var port = process.env.PORT || 8080
@@ -33,8 +39,11 @@ var port = process.env.PORT || 8080
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
-app.use('/api', index);
-app.use('/api', people);
+var version = 1
+app.use(`/api/v${version}`, index);
+app.use(`/api/v${version}`, karigor);
+app.use(`/api/v${version}`, card);
+app.use(`/api/v${version}`, auth);
 
 // START THE SERVER
 // =============================================================================
