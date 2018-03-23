@@ -1,6 +1,6 @@
 var md5 = require('blueimp-md5')
 
-var gravatar = function (email, size) {
+var gravatar = function (email, size = 400) {
   var gravatarRoot = 'https://www.gravatar.com/'
   var avatar = gravatarRoot + 'avatar'
   var hash = md5(email)

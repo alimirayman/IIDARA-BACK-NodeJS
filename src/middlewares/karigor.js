@@ -17,7 +17,7 @@ var karigorModelInit = function (req, res, next) {
     phone: isNumeric(karigor.phone) ? karigor.phone : null,
     address: karigor.address,
     role: karigor.role,
-    avatar: (karigor.avatar) ? karigor.avatar : gravatar(karigor.email),
+    avatar: (karigor.avatar) ? karigor.avatar : gravatar(karigor.email, 400),
     level: isNumeric(karigor.level) ? karigor.level : null,
     is_admin: false
   }
@@ -40,4 +40,4 @@ var karigorModelUpdate = function (req, res, next) {
 }
 
 module.exports.init = karigorModelInit
-module.exports.update = karigorModelInit
+module.exports.update = karigorModelUpdate
