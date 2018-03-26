@@ -1,6 +1,7 @@
 
 var
-  jwt = require('jsonwebtoken')
+  jwt = require('jsonwebtoken'),
+  Karigor = require('../models/karigor')
 
 var decryptToken = function (token) {
   try {
@@ -39,4 +40,18 @@ var authentication = function (req, res, next) {
   next()
 }
 
+var adminChecker = function (req, res, next) {
+  Karigor.findById(req.user_id, function (err, karigor) {
+    if (err) {
+      res.status(401)
+      res.json({
+        message: "You don't have the permission Sir!!!"
+      })
+    }
+    
+    next()
+  })
+}
+
 module.exports.checker = authentication
+module.exports.ifAdmin = adminChecker
