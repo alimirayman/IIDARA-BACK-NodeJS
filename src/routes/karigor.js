@@ -8,7 +8,7 @@ var express = require('express'),
 // =============================================================================
 router.route('/karigor')
   // create a karigor (accessed at POST http://localhost:8080/api/karigor)
-  .post(karigorValidate.init, function (req, res) {
+  .post(auth.checker, auth.ifAdmin, karigorValidate.init, function (req, res) {
     
     var person = new Karigor(req.karigor)                                 // create a new instance of the Person model
     

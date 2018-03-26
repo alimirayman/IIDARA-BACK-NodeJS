@@ -18,7 +18,7 @@ var karigorModelInit = function (req, res, next) {
     address: karigor.address,
     role: karigor.role,
     avatar: (karigor.avatar) ? karigor.avatar : gravatar(karigor.email, 400),
-    level: isNumeric(karigor.level) ? karigor.level : null,
+    level: isNumeric(karigor.level) ? karigor.level : 1,
     is_admin: false
   }
 

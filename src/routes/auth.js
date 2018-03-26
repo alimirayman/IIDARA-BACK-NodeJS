@@ -23,6 +23,7 @@ router.route('/login')
             }
           }, (process.env.JWT_SECRECT || 'secrext'))
           res.json({
+            id: karigor._id,
             is_admin: karigor.is_admin,
             token: token,
             level: karigor.level,
@@ -30,7 +31,7 @@ router.route('/login')
             name: karigor.name,
             username: karigor.username,
             role: karigor.role,
-            avater: karigor.avater
+            avatar: karigor.avatar
           })
 
         }
