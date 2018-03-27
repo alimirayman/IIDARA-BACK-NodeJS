@@ -1,7 +1,7 @@
 var express = require('express'),
   router = express.Router(),
   Cards = require('../models/cards'),
-  cardsValidator = require('../middlewares/cards')
+  cardsValidator = require('../middlewares/cards'),
   auth = require('../middlewares/auth')
 
 router.route('/card')
@@ -10,12 +10,12 @@ router.route('/card')
     var card = new Cards(req.card)
 
     // save a Card and check for errors
-    card.save(function (err) {
+    card.save((err, data) => {
       if (err)
         return res.send(err)
 
       res.status(201)
-      res.json({ message: 'card added!' })
+      res.json({ message: 'card added!', data: data })
     })
   })
   .get(function (req, res) {

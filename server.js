@@ -4,6 +4,8 @@
 var 
   express = require('express'),
   app = express(),
+  http = require('http').Server(app),
+  io = require('socket.io')(http),
   cors = require('cors'),
   helmet = require('helmet'),
   bodyParser = require('body-parser'),
@@ -31,7 +33,7 @@ app.use(cors())
 app.use(helmet())
 
 // Database Setup
-mongoose.connect('mongodb://localhost:27017/iidara');
+mongoose.connect('mongodb://localhost:27017/iidara')
 
 // set our port
 var port = process.env.PORT || 8080
@@ -40,12 +42,28 @@ var port = process.env.PORT || 8080
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 var version = 1
-app.use(`/api/v${version}`, index);
-app.use(`/api/v${version}`, karigor);
-app.use(`/api/v${version}`, card);
-app.use(`/api/v${version}`, auth);
+app.use(`/api/v${version}`, index)
+app.use(`/api/v${version}`, karigor)
+app.use(`/api/v${version}`, card)
+app.use(`/api/v${version}`, auth)
+
+// Socket Setup --------------------------------------
+// all the socket triggers will happen here
+// io.on('init', (val) => {
+//   console.log(val)
+// })
+io.on('connection', function (socket) {
+  console.log('connected')
+  socket.on('init', () => {
+    console.log('init')
+    socket.broadcast.emit('cardChange')
+  })
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+});
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
-console.log('Magic happens on port ' + port);
+http.listen(port)
+console.log('Magic happens on port ' + port)
