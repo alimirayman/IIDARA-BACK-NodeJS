@@ -36,8 +36,7 @@ router.route('/karigor')
           phone: el.phone,
           address: el.address,
           role: el.role,
-          avatar: el.avatar,
-          level: el.level,
+          avatar: el.avatar
         }
       })
 
@@ -107,7 +106,6 @@ router.route('/karigor/:id')
           address: karigor.address,
           role: karigor.role,
           avatar: karigor.avatar,
-          level: karigor.level,
           is_admin: karigor.is_admin,
         }
 

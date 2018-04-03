@@ -18,7 +18,6 @@ var karigorModelInit = function (req, res, next) {
     address: karigor.address,
     role: karigor.role,
     avatar: (karigor.avatar) ? karigor.avatar : gravatar(karigor.email, 400),
-    level: isNumeric(karigor.level) ? karigor.level : 1,
     is_admin: false
   }
 
@@ -32,8 +31,7 @@ var karigorModelUpdate = function (req, res, next) {
     phone: isNumeric(karigor.phone) ? karigor.phone : null,
     address: karigor.address,
     role: karigor.role,
-    avatar: (karigor.avatar) ? karigor.avatar : gravatar(karigor.email),
-    level: isNumeric(karigor.level) ? karigor.level : null
+    avatar: (karigor.avatar) ? karigor.avatar : gravatar(karigor.email)
   }
 
   next()
