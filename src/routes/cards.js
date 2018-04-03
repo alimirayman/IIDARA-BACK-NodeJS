@@ -5,7 +5,7 @@ var express = require('express'),
   auth = require('../middlewares/auth')
 
 router.route('/card')
-  .post(auth.ifAdmin, cardsValidator.init, function (req, res) {
+  .post(auth.checker, auth.ifAdmin, cardsValidator.init, function (req, res) {
     // create a new instance of the Cards
     var card = new Cards(req.card)
 
@@ -18,7 +18,7 @@ router.route('/card')
       res.json({ message: 'card added!', data: data })
     })
   })
-  .get(function (req, res) {
+  .get(auth.checker, function (req, res) {
     let query = {}
     if ( req.query.status ) query.status = req.query.status
     if ( req.query.karigor_id ) query.karigor_id = req.query.karigor_id
