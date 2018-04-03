@@ -45,9 +45,33 @@ router.route('/karigor')
     })
   })
 
+router.route('/karigor/me')
+  // Upddate personal information from getting user_id form token
+  .put(auth.checker, karigorValidate.update, function (req, res) {
+    
+    Karigor.findById(req.user_id, function (err, karigor) {
+      if (err)
+        res.send(err)
+
+      karigor.name = req.karigor.name
+      karigor.phone = req.karigor.phone
+      karigor.address = req.karigor.address
+      karigor.role = req.karigor.role
+      karigor.avatar = req.karigor.avatar
+
+      karigor.update(function (err) {
+        if (err)
+          res.send(err)
+
+        res.json({ message: 'karigor updated!' })
+      })
+    })
+
+  })
+
 router.route('/karigor/:id')
   // update a karigor (accessed at POST http://localhost:8080/api/karigor)
-  .put(karigorValidate.update, function (req, res) {
+  .put(auth.checker, auth.ifAdmin, karigorValidate.update, function (req, res) {
 
     Karigor.findById(req.params.id, function (err, karigor) {
       if (err)
@@ -58,9 +82,8 @@ router.route('/karigor/:id')
       karigor.address = req.karigor.address
       karigor.role = req.karigor.role
       karigor.avatar = req.karigor.avatar
-      karigor.level = req.karigor.level
       
-      karigor.save(function (err) {
+      karigor.update(function (err) {
         if (err)
           res.send(err)
 
@@ -70,7 +93,7 @@ router.route('/karigor/:id')
 
   })
   // Get single Karigor
-  .get(function (req, res) {
+  .get(auth.checker, auth.ifAdmin, function (req, res) {
     Karigor.findById(req.params.id, function (err, karigor) {
       if (err)
         res.send(err);
@@ -92,7 +115,7 @@ router.route('/karigor/:id')
     })
   })
   // Delete Karigor by ID
-  .delete(function (req, res) {
+  .delete(auth.checker, auth.ifAdmin,function (req, res) {
 
     Karigor.remove({
       _id: req.params.id
